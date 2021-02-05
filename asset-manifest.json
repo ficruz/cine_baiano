@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.js": "/cine_baiano/static/js/main.c27f733e.chunk.js",
+    "main.js.map": "/cine_baiano/static/js/main.c27f733e.chunk.js.map",
+    "runtime-main.js": "/cine_baiano/static/js/runtime-main.a3ee4a2f.js",
+    "runtime-main.js.map": "/cine_baiano/static/js/runtime-main.a3ee4a2f.js.map",
+    "static/js/2.f6842812.chunk.js": "/cine_baiano/static/js/2.f6842812.chunk.js",
+    "static/js/2.f6842812.chunk.js.map": "/cine_baiano/static/js/2.f6842812.chunk.js.map",
+    "index.html": "/cine_baiano/index.html",
+    "static/js/2.f6842812.chunk.js.LICENSE.txt": "/cine_baiano/static/js/2.f6842812.chunk.js.LICENSE.txt",
+    "static/media/astrogildo.bd817933.jpg": "/cine_baiano/static/media/astrogildo.bd817933.jpg",
+    "static/media/eclipse.b24e5dab.jpg": "/cine_baiano/static/media/eclipse.b24e5dab.jpg",
+    "static/media/funceb.2f3cbfa3.jpg": "/cine_baiano/static/media/funceb.2f3cbfa3.jpg",
+    "static/media/govbahialogo.4dfbdab7.jpg": "/cine_baiano/static/media/govbahialogo.4dfbdab7.jpg",
+    "static/media/travessia.e805d957.jpg": "/cine_baiano/static/media/travessia.e805d957.jpg",
+    "static/media/ufrb.59e1a3af.jpg": "/cine_baiano/static/media/ufrb.59e1a3af.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a3ee4a2f.js",
+    "static/js/2.f6842812.chunk.js",
+    "static/js/main.c27f733e.chunk.js"
+  ]
+}
