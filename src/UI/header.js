@@ -97,7 +97,7 @@ const Header = (props) => {
   };
 
   const route = [
-    { name: "Pagina Inicial", link: "/", activeIndex: 0 },
+    { name: "Pagina Inicial", link: "/home", activeIndex: 0 },
     {
       name: "Quem Somos",
       link: "/quemsomos",
@@ -172,7 +172,7 @@ const Header = (props) => {
         <SearchBar />
       </Box>
 
-      <Link to={"/"} underline={"none"}>
+      <Link to={"/home"} underline={"none"}>
         <Box className={classes.title}>
           <CameraIcon color="secondary" /> Filmografia Bahiana
         </Box>
