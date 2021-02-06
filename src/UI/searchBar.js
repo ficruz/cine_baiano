@@ -168,7 +168,7 @@ export default function SearchBar() {
 
       <InputBase
         className={classes.input}
-        placeholder="Pesquisar Filme"
+        placeholder="Pesquisar filme produzidos na baia"
         inputProps={{ "aria-label": "search google maps" }}
         onChange={(event) => setValue(event.target.value)}
         onKeyDown={(e) => {

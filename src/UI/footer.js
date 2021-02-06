@@ -20,13 +20,12 @@ const useStyles = makeStyles((theme) => ({
   },
 
   text: {
-    marginTop: "10vh",
-    ...theme.typography.tab,
+    ...theme.typography.footer,
     color: theme.palette.common.white,
     display: "flex",
-    marginLeft: "30px",
+    marginTop: "1em",
     justifyContent: "center",
-    padding: "20vh 0 ",
+    padding: "1em",
   },
 }));
 export default function Footer() {
@@ -76,7 +75,7 @@ export default function Footer() {
         ))}
       </Grid>
       <div className={classes.text}>
-        Designed and built with all the love in the world by FIdev. 2021
+        Designed and built with all the love in the world by Fidev. 2021
       </div>
     </footer>
   );

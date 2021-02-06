@@ -12,8 +12,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: "700px",
     ...theme.typography.tab,
-
-    padding: "2em",
+    margin: "0",
+    padding: "0",
+    marginTop: "2em",
   },
 
   drawerTypo: {

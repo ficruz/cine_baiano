@@ -6,16 +6,16 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
 import Collapse from "@material-ui/core/Collapse";
-import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
-import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { useTheme } from "@material-ui/core/styles";
 
 import Axios from "axios";
 
 import Selector from "./selector";
 import InputNome from "./inputText";
 import ResultTable from "./resultTable";
+import MoreButton from "./moreButton";
 
 const connection = "https://cine-baiano.herokuapp.com";
 
@@ -30,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(2),
     minWidth: 170,
+    height: "2em",
   },
   moreIcon: {
     display: "flex",
@@ -42,6 +43,9 @@ export default function BusquedaAvancada(props) {
 
   // ** Params from the URL to do an initial search.*/
   let simpleQueryParams = props.match.params;
+
+  const theme = useTheme();
+  const breakPointXs = useMediaQuery(theme.breakpoints.down("xs"));
 
   // ** State to save the form changes.*/
   const [nomeFilme, setNomeFilme] = useState("");
@@ -58,6 +62,22 @@ export default function BusquedaAvancada(props) {
   const [observacao, setObservacao] = useState("");
   const [sinopse, setSinopse] = useState("");
   const [codFilme] = useState("%");
+  let searchObj = {
+    sinopse: sinopse,
+    observacao: observacao,
+    fontes: fontes,
+    origem: origem,
+    pessoasempresas: pessoasEmpresas,
+    peb: peb,
+    colorido: colorido,
+    ano: anoLancamento,
+    nome: nomeFilme,
+    cinemamudo: cinemaMudo,
+    genero: generoFilme,
+    metragem: tipoMetragem,
+    soporte: tipoSoporte,
+    codfilme: codFilme,
+  };
 
   //** Initial data state to fill the form */
   const [InitialData, setInitialData] = useState(null);
@@ -66,7 +86,8 @@ export default function BusquedaAvancada(props) {
   const [listaFiltrada, setListaFiltrada] = useState(null);
 
   // ** State to open more search options */
-  const [open, setOpen] = useState(false);
+  const [openAdvancedForm, setOpenAdvancedForm] = useState(false);
+  const [openBasicForm, setOpenBasicForm] = useState(true);
 
   // ** fetch the movie search
   // @param {string} props with search options */
@@ -75,7 +96,7 @@ export default function BusquedaAvancada(props) {
       params: props,
     }).then((response) => {
       console.log(response);
-
+      setOpenBasicForm(false);
       setListaFiltrada(response.data);
     });
   };
@@ -150,196 +171,228 @@ export default function BusquedaAvancada(props) {
     }
   }, [simpleQueryParams.pathParam1, simpleQueryParams.pathParam2]);
 
+  const basicForm = (
+    <React.Fragment>
+      <FormControl className={classes.formControl}>
+        <InputNome
+          label={"Nome do Filme"}
+          name={"querybyname"}
+          clicked={setNomeFilme}
+          setListaFiltrada={setListaFiltrada}
+          getQuery={getQuery}
+          searchObj={searchObj}
+        ></InputNome>
+      </FormControl>
+
+      <FormControl className={classes.formControl}>
+        <InputNome
+          label={"Ano"}
+          name={"ano_lancamento"}
+          clicked={setAnoLancamento}
+          setListaFiltrada={setListaFiltrada}
+          getQuery={getQuery}
+          searchObj={searchObj}
+        ></InputNome>
+      </FormControl>
+
+      {InitialData ? (
+        <FormControl className={classes.formControl}>
+          <Selector
+            InitialData={InitialData.generoFilme}
+            currentValue={generoFilme}
+            clicked={(value) => setGeneroFilme(value)}
+          />
+        </FormControl>
+      ) : (
+        <p>Cargando...</p>
+      )}
+
+      {InitialData ? (
+        <FormControl className={classes.formControl}>
+          <Selector
+            InitialData={InitialData.tipoMetragem}
+            currentValue={tipoMetragem}
+            clicked={(value) => setTipoMetragem(value)}
+          />
+        </FormControl>
+      ) : (
+        <p>Cargando...</p>
+      )}
+
+      <FormControl className={classes.formControl}>
+        <InputNome
+          label={"Origem"}
+          name={"origem"}
+          clicked={setOrigem}
+          setListaFiltrada={setListaFiltrada}
+          getQuery={getQuery}
+          searchObj={searchObj}
+        ></InputNome>
+      </FormControl>
+    </React.Fragment>
+  );
+
+  const advancedForm = (
+    <React.Fragment>
+      <FormControl className={classes.formControl} variant="outlined">
+        <InputLabel id="demo-simple-select-outlined-label">
+          Cinema Mudo
+        </InputLabel>
+        <Select
+          labelId="demo-simple-select-outlined-label"
+          id="demo-simple-select-outlined"
+          label="Cinema Mudo"
+          value={cinemaMudo}
+          onChange={(e) => setCinemaMudo(e.target.value)}
+        >
+          <MenuItem value={"S"}>Sem</MenuItem>
+          <MenuItem value={"N"}>Nao</MenuItem>
+        </Select>
+      </FormControl>
+
+      {InitialData ? (
+        <FormControl className={classes.formControl}>
+          <Selector
+            InitialData={InitialData.tipoSoporte}
+            currentValue={tipoSoporte}
+            clicked={(value) => setTipoSoporte(value)}
+          />
+        </FormControl>
+      ) : (
+        <p>Cargando...</p>
+      )}
+
+      <FormControl className={classes.formControl} variant="outlined">
+        <InputLabel id="colorido">Colorido</InputLabel>
+        <Select
+          labelId="colorido"
+          id="select-colorido"
+          label="Colorido"
+          value={colorido}
+          onChange={(e) => setColorido(e.target.value)}
+        >
+          <MenuItem value={"S"}>Sem</MenuItem>
+          <MenuItem value={"N"}>Nao</MenuItem>
+        </Select>
+      </FormControl>
+
+      <FormControl className={classes.formControl} variant="outlined">
+        <InputLabel id="pyb">Preto e Branco</InputLabel>
+        <Select
+          labelId="pyb"
+          id="select-pyb"
+          label="Petro e Branco"
+          value={peb}
+          onChange={(e) => setPeb(e.target.value)}
+        >
+          <MenuItem value={"S"}>Sem</MenuItem>
+          <MenuItem value={"N"}>Nao</MenuItem>
+        </Select>
+      </FormControl>
+
+      <FormControl className={classes.formControl}>
+        <InputNome
+          label={"Pessoas/Empresas"}
+          name={"pessoas_empresas"}
+          clicked={setPessoasEmpresas}
+          setListaFiltrada={setListaFiltrada}
+          getQuery={getQuery}
+          searchObj={searchObj}
+        ></InputNome>
+      </FormControl>
+
+      <FormControl className={classes.formControl}>
+        <InputNome
+          label={"Fontes"}
+          name={"fontes"}
+          clicked={setFontes}
+          setListaFiltrada={setListaFiltrada}
+          getQuery={getQuery}
+          searchObj={searchObj}
+        ></InputNome>
+      </FormControl>
+
+      <FormControl className={classes.formControl}>
+        <InputNome
+          label={"Observaçao"}
+          name={"observacao"}
+          clicked={setObservacao}
+          setListaFiltrada={setListaFiltrada}
+          getQuery={getQuery}
+          searchObj={searchObj}
+        ></InputNome>
+      </FormControl>
+
+      <FormControl className={classes.formControl}>
+        <InputNome
+          label={"Sinopse"}
+          name={"sinopse"}
+          clicked={setSinopse}
+          setListaFiltrada={setListaFiltrada}
+          getQuery={getQuery}
+          searchObj={searchObj}
+        ></InputNome>
+      </FormControl>
+    </React.Fragment>
+  );
+
   return (
     <Container>
       <div className={classes.title}> Busqueda Avançada</div>
+      {breakPointXs ? (
+        <React.Fragment>
+          {openBasicForm ? (
+            <Collapse in={openBasicForm} timeout="auto" unmountOnExit>
+              {basicForm}
 
-      <div>
-        <FormControl className={classes.formControl}>
-          <InputNome
-            label={"Nome Do Filme"}
-            name={"querybyname"}
-            clicked={(nome) => setNomeFilme(nome)}
-          ></InputNome>
-        </FormControl>
+              <div className={classes.moreIcon}>
+                <MoreButton
+                  open={openAdvancedForm}
+                  setOpen={setOpenAdvancedForm}
+                  onOpen={"Mais opçoes de busqueda"}
+                  onClose={"Menos opçoes de busqueda"}
+                />
+              </div>
 
-        <FormControl className={classes.formControl}>
-          <InputNome
-            label={"Ano"}
-            name={"ano_lancamento"}
-            clicked={setAnoLancamento}
-          ></InputNome>
-        </FormControl>
-
-        {InitialData ? (
-          <FormControl className={classes.formControl}>
-            <Selector
-              InitialData={InitialData.generoFilme}
-              currentValue={generoFilme}
-              clicked={(value) => setGeneroFilme(value)}
-            />
-          </FormControl>
-        ) : (
-          <p>Cargando...</p>
-        )}
-
-        {InitialData ? (
-          <FormControl className={classes.formControl}>
-            <Selector
-              InitialData={InitialData.tipoMetragem}
-              currentValue={tipoMetragem}
-              clicked={(value) => setTipoMetragem(value)}
-            />
-          </FormControl>
-        ) : (
-          <p>Cargando...</p>
-        )}
-
-        <FormControl className={classes.formControl}>
-          <InputNome
-            label={"Origem"}
-            name={"origem"}
-            clicked={setOrigem}
-          ></InputNome>
-        </FormControl>
-      </div>
-      <div className={classes.moreIcon}>
-        <IconButton
-          disableRipple={true}
-          aria-label={"expand row"}
-          size={"small"}
-          onClick={() => {
-            return setOpen(!open);
-          }}
-        >
-          {open ? (
-            <RemoveCircleOutlineIcon color="secondary" />
+              <Collapse in={openAdvancedForm} timeout="auto" unmountOnExit>
+                {advancedForm}
+              </Collapse>
+            </Collapse>
           ) : (
-            <AddCircleOutlineIcon color="secondary" />
-          )}
-          {open ? (
-            <p>
-              &nbsp;<b>Menos opcoes de busqueda.</b>
-            </p>
-          ) : (
-            <p>
-              &nbsp;<b>Mais opcoes de busqueda.</b>
-            </p>
-          )}
-        </IconButton>
-      </div>
-      <div>
-        <Collapse in={open} timeout="auto" unmountOnExit>
-          <FormControl className={classes.formControl} variant="outlined">
-            <InputLabel id="demo-simple-select-outlined-label">
-              Cinema Mudo
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-outlined-label"
-              id="demo-simple-select-outlined"
-              label="Cinema Mudo"
-              value={cinemaMudo}
-              onChange={(e) => setCinemaMudo(e.target.value)}
-            >
-              <MenuItem value={"S"}>Sem</MenuItem>
-              <MenuItem value={"N"}>Nao</MenuItem>
-            </Select>
-          </FormControl>
-
-          {InitialData ? (
-            <FormControl className={classes.formControl}>
-              <Selector
-                InitialData={InitialData.tipoSoporte}
-                currentValue={tipoSoporte}
-                clicked={(value) => setTipoSoporte(value)}
+            <div className={classes.moreIcon}>
+              <MoreButton
+                open={openBasicForm}
+                setOpen={setOpenBasicForm}
+                onOpen={"Mais opçoes de busqueda"}
+                onClose={"Menos opçoes de busqueda"}
               />
-            </FormControl>
-          ) : (
-            <p>Cargando...</p>
+            </div>
           )}
+        </React.Fragment>
+      ) : (
+        <div>
+          {basicForm}
+          <div className={classes.moreIcon}>
+            <MoreButton
+              open={openAdvancedForm}
+              setOpen={setOpenAdvancedForm}
+              onOpen={"Mais opçoes de busqueda"}
+              onClose={"Menos opçoes de busqueda"}
+            />
+          </div>
 
-          <FormControl className={classes.formControl} variant="outlined">
-            <InputLabel id="colorido">Colorido</InputLabel>
-            <Select
-              labelId="colorido"
-              id="select-colorido"
-              label="Colorido"
-              value={colorido}
-              onChange={(e) => setColorido(e.target.value)}
-            >
-              <MenuItem value={"S"}>Sem</MenuItem>
-              <MenuItem value={"N"}>Nao</MenuItem>
-            </Select>
-          </FormControl>
+          <Collapse in={openAdvancedForm} timeout="auto" unmountOnExit>
+            {advancedForm}
+          </Collapse>
+        </div>
+      )}
 
-          <FormControl className={classes.formControl} variant="outlined">
-            <InputLabel id="pyb">Preto e Branco</InputLabel>
-            <Select
-              labelId="pyb"
-              id="select-pyb"
-              label="Petro e Branco"
-              value={peb}
-              onChange={(e) => setPeb(e.target.value)}
-            >
-              <MenuItem value={"S"}>Sem</MenuItem>
-              <MenuItem value={"N"}>Nao</MenuItem>
-            </Select>
-          </FormControl>
-
-          <FormControl className={classes.formControl}>
-            <InputNome
-              label={"Pessoas/Empresas"}
-              name={"pessoas_empresas"}
-              clicked={setPessoasEmpresas}
-            ></InputNome>
-          </FormControl>
-
-          <FormControl className={classes.formControl}>
-            <InputNome
-              label={"Fontes"}
-              name={"fontes"}
-              clicked={setFontes}
-            ></InputNome>
-          </FormControl>
-
-          <FormControl className={classes.formControl}>
-            <InputNome
-              label={"Observaçao"}
-              name={"observacao"}
-              clicked={setObservacao}
-            ></InputNome>
-          </FormControl>
-
-          <FormControl className={classes.formControl}>
-            <InputNome
-              label={"Sinopse"}
-              name={"sinopse"}
-              clicked={setSinopse}
-            ></InputNome>
-          </FormControl>
-        </Collapse>
-      </div>
       <div className={classes.moreIcon}>
         <Button
           className={classes.formControl}
           onClick={() => {
             setListaFiltrada(null);
-            return getQuery({
-              sinopse: sinopse,
-              observacao: observacao,
-              fontes: fontes,
-              origem: origem,
-              pessoasempresas: pessoasEmpresas,
-              peb: peb,
-              colorido: colorido,
-              ano: anoLancamento,
-              nome: nomeFilme,
-              cinemamudo: cinemaMudo,
-              genero: generoFilme,
-              metragem: tipoMetragem,
-              soporte: tipoSoporte,
-              codfilme: codFilme,
-            });
+            return getQuery(searchObj);
           }}
           variant="contained"
           color="secondary"

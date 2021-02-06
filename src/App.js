@@ -1,6 +1,6 @@
 import React from "react";
 import { ThemeProvider } from "@material-ui/core/styles";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { HashRouter, Route, Switch } from "react-router-dom";
 
 import Header from "./UI/header";
 import theme from "./UI/theme";
@@ -15,7 +15,7 @@ import AdvancedSearch from "./AdvancedSearch/advancedSearch";
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <BrowserRouter>
+      <HashRouter basename="/">
         <Header />
         <Switch>
           <Route exact path="/home" component={Home}></Route>
@@ -28,7 +28,7 @@ function App() {
           ></Route>
         </Switch>
         <Footer />
-      </BrowserRouter>
+      </HashRouter>
     </ThemeProvider>
   );
 }

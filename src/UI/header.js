@@ -73,6 +73,10 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: 0,
   },
+  divMargin: {
+    backgroundColor: "black",
+    height: "3em",
+  },
 }));
 
 const Header = (props) => {
@@ -80,6 +84,7 @@ const Header = (props) => {
   const theme = useTheme();
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
   const matches = useMediaQuery(theme.breakpoints.down("xs"));
+  const home = "/home";
 
   //** State to save and check current selected window */
   const [value, setValue] = useState(0);
@@ -97,7 +102,7 @@ const Header = (props) => {
   };
 
   const route = [
-    { name: "Pagina Inicial", link: "/home", activeIndex: 0 },
+    { name: "Pagina Inicial", link: home, activeIndex: 0 },
     {
       name: "Quem Somos",
       link: "/quemsomos",
@@ -172,7 +177,7 @@ const Header = (props) => {
         <SearchBar />
       </Box>
 
-      <Link to={"/home"} underline={"none"}>
+      <Link to={home} underline={"none"}>
         <Box className={classes.title}>
           <CameraIcon color="secondary" /> Filmografia Bahiana
         </Box>
@@ -222,7 +227,7 @@ const Header = (props) => {
           <MenuIcon className={classes.drawerIcon} />
         </IconButton>
 
-        <Link to={"/"} underline={"none"}>
+        <Link to={home} underline={"none"}>
           <CameraIcon color="secondary" />
         </Link>
       </div>
@@ -256,7 +261,7 @@ const Header = (props) => {
         </AppBar>
       )}
 
-      <div className={classes.toolbarMargin} />
+      <div className={classes.divMargin} />
     </React.Fragment>
   );
 };

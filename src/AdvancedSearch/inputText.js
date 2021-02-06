@@ -1,7 +1,7 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
 
-const nomeDoFilme = (props) => {
+export default function InputText(props) {
   return (
     <div>
       <TextField
@@ -12,9 +12,15 @@ const nomeDoFilme = (props) => {
         onChange={(e) => {
           props.clicked(e.target.value);
         }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            (() => {
+              props.setListaFiltrada(null);
+              return props.getQuery(props.searchObj);
+            })();
+          }
+        }}
       />
     </div>
   );
-};
-
-export default nomeDoFilme;
+}
