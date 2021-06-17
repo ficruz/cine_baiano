@@ -1,18 +1,18 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import { Typography } from "@material-ui/core";
-
-import footer1 from "../assets/footer/funceb.jpg";
-import footer2 from "../assets/footer/govbahialogo.jpg";
-import footer3 from "../assets/footer/ufrb.jpg";
+import { Container, Typography } from "@material-ui/core";
+import { Box } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   footer: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: theme.palette.primary.main,
     width: "100%",
     color: theme.palette.common.white,
-    marginTop: "20px",
+    display: "flex",
+    //height: "60px",
+    //marginTop: "20px",
   },
   imgfooter: {
     borderRadius: "5%",
@@ -22,58 +22,33 @@ const useStyles = makeStyles((theme) => ({
   text: {
     ...theme.typography.footer,
     color: theme.palette.common.white,
-    display: "flex",
-    marginTop: "1em",
-    justifyContent: "center",
-    padding: "1em",
+    fontWeight: 300,
+    // display: "flex",
+    // marginTop: "1em",
+    // justifyContent: "center",
+    padding: "0.8em",
+  },
+
+  dereitos: {
+    marginRight: "auto",
+    ...theme.typography.footer,
+    color: theme.palette.common.white,
+    fontWeight: 300,
+    // display: "flex",
+    // marginTop: "1em",
+    // justifyContent: "center",
+    padding: "0.8em",
   },
 }));
 export default function Footer() {
   const classes = useStyles();
 
-  const gridElements = [
-    {
-      name: "FUNDACAO CULTURAL ESTADO DA BAIA",
-      src: footer1,
-      xs: 1,
-      link: "http://www.fundacaocultural.ba.gov.br/",
-    },
-
-    {
-      name: "BAHIA GOVERNO DO ESTADO",
-      src: footer2,
-      xs: 1,
-      link: "http://www.bahia.ba.gov.br/",
-    },
-    {
-      name: "CECULT UFBR",
-      src: footer3,
-      xs: 1,
-      link: "https://ufrb.edu.br/cecult/",
-    },
-  ];
-
   return (
     <footer className={classes.footer}>
-      <Grid container spacing={5} justify="center" alignItems="center">
-        <Typography variant={"h6"}> Apoio: </Typography>
-        {gridElements.map((el, index) => (
-          <Grid
-            item
-            key={el.name}
-            component={"a"}
-            href={`${el.link}`}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            <img
-              className={classes.imgfooter}
-              alt={`${el.src}`}
-              src={el.src}
-            ></img>
-          </Grid>
-        ))}
-      </Grid>
+      <div className={classes.dereitos}>
+        {" "}
+        Filmografia Baiana 2021. Todos os direitos reservados.
+      </div>
       <div className={classes.text}>
         Designed and built with all the love in the world by Fidev. 2021
       </div>
