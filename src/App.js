@@ -49,6 +49,8 @@ function App() {
   const customAuthHandler = () => {
     history.push("/login");
   };
+  console.log(window.location.origin);
+  console.log(window.location.href);
 
   return (
     <Security
@@ -59,43 +61,67 @@ function App() {
       <ThemeProvider theme={theme}>
         <Header />
 
-        <Route exact path="/home" component={Home}></Route>
-        <Route exact path="/quemsomos" component={AboutUs}></Route>
-        <Route exact path="/filmebaiano" component={Oque}></Route>
+        <Route exact path="/cine_baiano/home/" component={Home}></Route>
+        <Route exact path="/cine_baiano/quemsomos" component={AboutUs}></Route>
+        <Route exact path="/cine_baiano/filmebaiano" component={Oque}></Route>
 
-        <Route exact path="/News/:id" component={News}></Route>
-        <Route exact path="/News/" component={News}></Route>
-        <Route exact path="/Edit/News/:id" component={EditNews}></Route>
-        <Route exact path="/New/News/:id" component={NewNews}></Route>
-
-        <Route exact path="/New/Movie/" component={NewMovie}></Route>
-        <Route exact path="/Edit/Movie/" component={EditMovie}></Route>
+        <Route exact path="/cine_baiano/News/:id" component={News}></Route>
+        <Route exact path="/cine_baiano/News/" component={News}></Route>
+        <Route
+          exact
+          path="/cine_baiano/Edit/News/:id"
+          component={EditNews}
+        ></Route>
+        <Route
+          exact
+          path="/cine_baiano/New/News/:id"
+          component={NewNews}
+        ></Route>
 
         <Route
           exact
-          path="/Institucional/:id"
+          path="/cine_baiano/New/Movie/"
+          component={NewMovie}
+        ></Route>
+        <Route
+          exact
+          path="/cine_baiano/Edit/Movie/"
+          component={EditMovie}
+        ></Route>
+
+        <Route
+          exact
+          path="/cine_baiano/Institucional/:id"
           component={InstitucionalContent}
         ></Route>
 
-        <Route exact path="/New/People/" component={NewPerson}></Route>
+        <Route
+          exact
+          path="/cine_baiano/New/People/"
+          component={NewPerson}
+        ></Route>
 
         <Route
-          path="/Aboutmovie"
+          path="/cine_baiano/Aboutmovie"
           movieCode={query.get("movieCode")}
           exact={true}
           component={AboutMovie}
         />
         <Route
-          path="/login"
+          path="/cine_baiano/login"
           render={() => <Login config={oktaSignInConfig} />}
         />
-        <SecureRoute path="/Admin" exact={true} component={AdminHome} />
-        <SecureRoute path="/protected" component={Protected} />
-        <Route path="/login/callback" component={LoginCallback} />
+        <SecureRoute
+          path="/cine_baiano/Admin"
+          exact={true}
+          component={AdminHome}
+        />
+        <SecureRoute path="/cine_baiano/protected" component={Protected} />
+        <Route path="/cine_baiano/login/callback" component={LoginCallback} />
 
         <Route
           exact
-          path="/busquedaavancada/:pathParam1?/:pathParam2?"
+          path="/cine_baiano/busquedaavancada/:pathParam1?/:pathParam2?"
           component={AdvancedSearch}
         ></Route>
 
