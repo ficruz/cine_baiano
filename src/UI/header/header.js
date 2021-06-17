@@ -127,7 +127,7 @@ const Header = (props) => {
   const theme = useTheme();
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
   const matches = useMediaQuery(theme.breakpoints.down("xs"));
-  const home = "/home";
+  const home = "/";
 
   //** State to save and check current selected window */
   const [value, setValue] = useState(0);
