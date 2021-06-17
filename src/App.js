@@ -61,14 +61,6 @@ function App() {
       <ThemeProvider theme={theme}>
         <Header />
 
-        <Route
-          exact
-          path="/cine_baiano/"
-          component={() => {
-            return <h1>Loading{history.push("/home")}</h1>;
-          }}
-        ></Route>
-
         <Route exact path="/home/" component={Home}></Route>
         <Route exact path="/quemsomos" component={AboutUs}></Route>
         <Route exact path="/filmebaiano" component={Oque}></Route>
