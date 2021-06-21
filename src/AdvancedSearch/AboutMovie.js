@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/styles";
 import axios from "axios";
 
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import moment from "moment";
 
@@ -15,21 +15,19 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Container } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import { Typography } from "@material-ui/core";
 import { Box } from "@material-ui/core";
-import { ContactSupportOutlined } from "@material-ui/icons";
 import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import { Connection } from "../Connection";
 import Divider from "@material-ui/core/Divider";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
-import { Alert, AlertTitle } from "@material-ui/lab";
+
+import SuccessDialog from "../Admin/Edit/EditMovie/components/SimpleDialog";
+
+import { Connection } from "../Connection";
 
 import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css";
@@ -47,8 +45,6 @@ const useStyles = makeStyles((theme) => ({
   },
   root: {
     ...theme.typography.tab,
-    //margin: "0",
-    //padding: "0",
   },
   portraitCard: { maxWidth: "150px", maxHeight: "350px" },
   heroDisplay: {
@@ -72,12 +68,10 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "1em",
 
     flexWrap: "wrap",
-    //padding: theme.spacing(3),
   },
   creditsGrey: {
     fontSize: "1.2rem",
     fontWeight: 300,
-    //padding: theme.spacing(3),
   },
   imagesSection: {
     backgroundColor: theme.palette.common.lightgrey,
@@ -86,17 +80,15 @@ const useStyles = makeStyles((theme) => ({
   darkStrip: { backgroundColor: "#1f262e" },
 
   sinopse: { color: theme.palette.common.black },
-  // info: { display: "flex" },
+
   celldiv: {
     minWidth: 450,
-    //marginLeft: theme.spacing(8),
     marginBottom: theme.spacing(2),
     fontSize: "1.2rem",
     fontWeight: 300,
   },
   celldivMini: {
     minWidth: 250,
-    //marginLeft: theme.spacing(8),
     marginBottom: theme.spacing(2),
     fontSize: "1.2rem",
     fontWeight: 300,
@@ -112,7 +104,6 @@ const useStyles = makeStyles((theme) => ({
   adminButtonsIconAdd: { backgroundColor: "green", margin: theme.spacing(1) },
 }));
 
-//console.log(Connection.api);
 const ApiConnection = `${Connection.api}/api/aboutfilme`;
 
 const ManagingButtons = (props) => {
@@ -156,7 +147,7 @@ const ManagingButtons = (props) => {
           if (!window.confirm("Tem certeza de que deseja DELETAR a entrada?")) {
             e.preventDefault();
           } else {
-            console.log("delete");
+            props.deleteFilme();
           }
         }}
       >
@@ -169,6 +160,7 @@ const ManagingButtons = (props) => {
 export default function Aboutfilme(props) {
   const { authState, oktaAuth } = useOktaAuth();
   const [movieData, setMovieData] = useState(null);
+  const [open, setOpen] = useState(false);
 
   const [photoIndex, setPhotoIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
@@ -180,10 +172,9 @@ export default function Aboutfilme(props) {
   const search = props.location.search;
   const params = new URLSearchParams(search);
   const movieCode = params.get("movieCode");
+  const history = useHistory();
 
   let images = [];
-
-  let tempMovieData = {};
 
   const movieDataReducer = (acc, cur) => {
     if (acc["credits"][cur["des_subcategoria"]]) {
@@ -201,14 +192,12 @@ export default function Aboutfilme(props) {
   };
 
   useEffect(() => {
+    let tempMovieData = {};
+
     axios
       .get(`${ApiConnection}?cod_filme=${movieCode}`)
       .then((res) => {
-        //  console.log(res.data);
         tempMovieData = res.data.reduce(movieDataReducer, { credits: {} });
-
-        // tempMovieData.des_link = tempMovieData.des_link.split("\r\n");
-        console.log(tempMovieData);
 
         return tempMovieData;
       })
@@ -232,16 +221,34 @@ export default function Aboutfilme(props) {
           "YYYY-MM-DDTHH:mm:ssZ"
         ).format("YYYY-MM-DD HH:mm:ss");
 
-        // console.log(
-        //   moment(tempMovieData.dtc_lancamento, "YYYY-MM-DDTHH:mm:ssZ").format(
-        //     "YYYY-MM-DD HH:mm:ss"
-        //   )
-        //);
-
         return setMovieData(tempMovieData);
       })
       .catch((err) => console.log(err));
   }, []);
+
+  console.log(movieData);
+
+  const handleCloseDialog = () => {
+    setOpen(false);
+    return history.push(`/busquedaavancada`);
+  };
+
+  const deleteFilme = async () => {
+    let connectionRemove;
+
+    try {
+      connectionRemove = await axios({
+        method: "post",
+        url: `${Connection.api}/movies/delete`,
+        data: { id: movieData.movieCode },
+      });
+    } catch (e) {
+      console.log(e);
+      return alert("Sorry, there was an error with the deletion process");
+    }
+    console.log(connectionRemove);
+    return setOpen(true);
+  };
 
   const fullSize = (
     <React.Fragment>
@@ -544,7 +551,10 @@ export default function Aboutfilme(props) {
             </Grid>
             <Box className={classes.boxSeparation} />
             {authState.isAuthenticated ? (
-              <ManagingButtons movieData={movieData} />
+              <ManagingButtons
+                movieData={movieData}
+                deleteFilme={deleteFilme}
+              />
             ) : null}
 
             <Box className={classes.boxSeparation} />
@@ -566,6 +576,7 @@ export default function Aboutfilme(props) {
           }
         />
       )}
+      <SuccessDialog open={open} onClose={handleCloseDialog} />
     </React.Fragment>
   );
 

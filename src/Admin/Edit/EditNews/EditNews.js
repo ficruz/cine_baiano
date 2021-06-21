@@ -5,13 +5,14 @@ import { useParams, useLocation, useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
-import { Typography, Dialog, DialogTitle } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
-import { Divider, Switch } from "@material-ui/core";
-import { Alert, AlertTitle } from "@material-ui/lab";
+import { Divider } from "@material-ui/core";
 
 import axios from "axios";
-import { Connection } from "../../Connection";
+import { Connection } from "../../../Connection";
+
+import SuccessDialog from "./SimpleDialog";
 
 const useStyle = makeStyles((theme) => ({
   root: {},
@@ -24,26 +25,6 @@ const useStyle = makeStyles((theme) => ({
   },
   buttonItem: { marginLeft: "20px" },
 }));
-
-function SimpleDialog(props) {
-  const { onClose, open } = props;
-
-  const handleClose = () => {
-    onClose();
-  };
-
-  return (
-    <Dialog
-      onClose={handleClose}
-      aria-labelledby="simple-dialog-title"
-      open={open}
-    >
-      <Alert severity="success">
-        <AlertTitle>Sucesso!</AlertTitle>
-      </Alert>
-    </Dialog>
-  );
-}
 
 export default function EditNews() {
   const newsInfo = useLocation().state;
@@ -62,16 +43,10 @@ export default function EditNews() {
     sts_ativo: newsInfo.sts_ativo,
   });
   const classes = useStyle();
-  console.log(info);
 
   let { id } = useParams();
 
-  //console.log(newsInfo);
-  //console.log(Connection.api);
-
   const sendRequestHandler = () => {
-    //console.log(info);
-
     axios({
       method: "patch",
       url: `${Connection.api}/news/edit`,
@@ -82,8 +57,6 @@ export default function EditNews() {
   };
 
   const setInfoHandler = (props) => (event) => {
-    // console.log(event.target.name);
-    // console.log(event.target.value);
     return (event.target.name === "ativo") | (event.target.name === "destaque")
       ? setInfo({ ...info, [props]: parseInt(event.target.value) })
       : setInfo({ ...info, [props]: event.target.value });
@@ -257,7 +230,7 @@ export default function EditNews() {
           </Box>
         </Box>
       </Container>
-      <SimpleDialog open={open} onClose={handleClose} />
+      <SuccessDialog open={open} onClose={handleClose}></SuccessDialog>
     </React.Fragment>
   );
 }

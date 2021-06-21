@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 
-import { useParams, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
-import { Typography, Dialog, DialogTitle } from "@material-ui/core";
+import { Typography, Dialog } from "@material-ui/core";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import { Divider } from "@material-ui/core";
 import { Alert, AlertTitle } from "@material-ui/lab";
@@ -53,7 +53,6 @@ function SimpleDialog(props) {
 }
 
 export default function EditNews() {
-  //const newsInfo = useLocation().state;
   let history = useHistory();
 
   const [open, setOpen] = useState(false);
@@ -83,15 +82,12 @@ export default function EditNews() {
   useEffect(() => {
     axios({ method: "get", url: `${Connection.api}/people/InitialData` })
       .then((res) => {
-        //console.log(res.data.cod_pessoa[0].cod_pessoa);
         setLastPersonID(res.data.cod_pessoa[0].cod_pessoa);
 
         return setInitialData(res.data.pessoa);
       })
       .catch((err) => console.log(err));
   }, []);
-
-  // ---------------------------------------------------------------------------------------------------------------------------------------
 
   const sendRequestHandler = () => {
     axios({
@@ -179,7 +175,6 @@ export default function EditNews() {
                 isClearable={true}
                 name="subcategoria"
                 key={personInputKey + 3}
-                // onChange={newPersonHandler("cod_subcategoria")}
               ></WindowedSelect>
             ) : (
               <p>Loading</p>
@@ -261,9 +256,6 @@ export default function EditNews() {
             })}
           </FormControl>
           <Box className={classes.boxSeparator} />
-
-          {/* ------------------------------------------------------------------------------------------------------------------------ */}
-          {/* <button onClick={() => console.log(pessoa)}>Show People</button> */}
           <Divider />
           <Box className={classes.boxSeparator} />
 

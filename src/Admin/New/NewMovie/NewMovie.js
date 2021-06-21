@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
 
-import { useParams, useHistory, Link } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
-import { Typography, Dialog, DialogTitle } from "@material-ui/core";
-import TextareaAutosize from "@material-ui/core/TextareaAutosize";
+import { Typography } from "@material-ui/core";
 import { Divider } from "@material-ui/core";
-import { Alert, AlertTitle } from "@material-ui/lab";
 import { FormControl, FormControlLabel, Switch } from "@material-ui/core";
 
 import "react-datetime/css/react-datetime.css";
@@ -20,6 +18,8 @@ import WindowedSelect from "react-windowed-select";
 import { components, createFilter } from "react-windowed-select";
 
 import MovieForm from "./components/MovieForm";
+
+import SuccessDialog from "../../Edit/EditMovie/components/SimpleDialog";
 
 const useStyle = makeStyles((theme) => ({
   root: {},
@@ -34,31 +34,12 @@ const useStyle = makeStyles((theme) => ({
   title: { display: "flex", justifyContent: "center" },
 }));
 
-function SimpleDialog(props) {
-  const { onClose, open } = props;
-
-  const handleClose = () => {
-    onClose();
-  };
-
-  return (
-    <Dialog
-      onClose={handleClose}
-      aria-labelledby="simple-dialog-title"
-      open={open}
-    >
-      <Alert severity="success">
-        <AlertTitle>Sucesso!</AlertTitle>
-      </Alert>
-    </Dialog>
-  );
-}
-
 export default function EditNews() {
   //const newsInfo = useLocation().state;
   let history = useHistory();
 
   const [open, setOpen] = useState(false);
+  const [addedMovie, setAddedMovie] = useState(null);
   const [info, setInfo] = useState({
     des_nome_filme: null,
     des_nome_filme_alternativo: null,
@@ -97,14 +78,11 @@ export default function EditNews() {
   const [initialData, setInitialData] = useState([]);
 
   const [lastMovieID, setLastMovieID] = useState({});
-  const [lastPersonID, setLastPersonID] = useState({});
 
   const [photoInputKey, setPhotoInputKey] = useState("");
   const [personInputKey, setPersonInputKey] = useState(0);
 
   const classes = useStyle();
-
-  let { id } = useParams();
 
   const customFilter = createFilter({ ignoreAccents: false });
   const customComponents = {
@@ -118,30 +96,13 @@ export default function EditNews() {
       .then((res) => {
         console.log(res.data);
         setLastMovieID(res.data.cod_filme[0]);
-        setLastPersonID(res.data.cod_pessoa[0].cod_pessoa);
 
         return setInitialData(res.data);
       })
       .catch((err) => console.log(err));
   }, []);
 
-  // ---------------------------------------------------------------------------------------------------------------------------------------
-
   const sendRequestHandler = () => {
-    // if (
-    //   !info.des_nome_filme ||
-    //   !info.cod_genero_filme ||
-    //   !info.sts_colorido ||
-    //   !info.sts_peb ||
-    //   !info.cod_tipo_metragem ||
-    //   !info.sts_mudo ||
-    //   !info.num_ano_lancamento
-    // ) {
-    //   return alert("lembre-se de incluir todos os campos obrigatórios");
-    // }
-
-    //console.log(info);
-
     axios({
       method: "post",
       url: `${Connection.api}/movies/new`,
@@ -154,8 +115,9 @@ export default function EditNews() {
     })
       .then((res) => {
         console.log(res.data);
-        // setNewID(res.data.insertId);
-        //handleClickOpen();
+        setAddedMovie(res.data.cod_filme);
+
+        return handleOpenDialog();
       })
       .catch((err) => console.log(err));
   };
@@ -181,11 +143,8 @@ export default function EditNews() {
     if (!tempPessoa.cod_pessoa || !tempPessoa.cod_subcategoria) {
       return alert("lembre-se de incluir pelo menos um nome e função");
     }
-    //console.log(lastPersonID + 1);
-    // Person SQL code Counter
-    //setLastPersonID(lastPersonID + 1);
 
-    // Reset to the inputs
+    // Reset inputs Components
     setPersonInputKey(Math.random());
 
     setPessoa([...pessoa, tempPessoa]);
@@ -243,13 +202,13 @@ export default function EditNews() {
     });
   };
 
-  const handleClickOpen = () => {
+  const handleOpenDialog = () => {
     setOpen(true);
   };
 
-  const handleClose = (value) => {
+  const handleClose = () => {
     setOpen(false);
-    return history.push(`/news/`);
+    return history.push(`/aboutmovie?movieCode=${addedMovie}`);
   };
 
   return (
@@ -414,7 +373,6 @@ export default function EditNews() {
                 ) {
                   e.preventDefault();
                 } else {
-                  // console.log(photo);
                   sendRequestHandler();
                 }
               }}
@@ -436,7 +394,7 @@ export default function EditNews() {
           </Box>
         </Box>
       </Container>
-      <SimpleDialog open={open} onClose={handleClose} />
+      <SuccessDialog open={open} onClose={handleClose} />
     </React.Fragment>
   );
 }

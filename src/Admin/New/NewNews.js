@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 
-import { useParams, useLocation, useHistory } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
-import { Typography, Dialog, DialogTitle } from "@material-ui/core";
+import { Typography, Dialog } from "@material-ui/core";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
-import { Divider, Switch } from "@material-ui/core";
+import { Divider } from "@material-ui/core";
 import { Alert, AlertTitle } from "@material-ui/lab";
 
 import axios from "axios";
@@ -46,7 +46,6 @@ function SimpleDialog(props) {
 }
 
 export default function EditNews() {
-  //const newsInfo = useLocation().state;
   let history = useHistory();
 
   const [open, setOpen] = useState(false);
@@ -61,35 +60,24 @@ export default function EditNews() {
     sts_destaque: null,
     sts_ativo: null,
   });
-  const [newID, setNewID] = useState(null);
 
   const classes = useStyle();
-  //console.log(info);
 
   let { id } = useParams();
 
-  //console.log(newsInfo);
-  //console.log(Connection.api);
-
   const sendRequestHandler = () => {
-    //console.log(info);
-
     axios({
       method: "post",
       url: `${Connection.api}/news/new`,
       data: { info: info },
     })
       .then((res) => {
-        console.log(res.data);
-        setNewID(res.data.insertId);
         handleClickOpen();
       })
       .catch((err) => console.log(err));
   };
 
   const setInfoHandler = (props) => (event) => {
-    // console.log(event.target.name);
-    // console.log(event.target.value);
     return (event.target.name === "ativo") | (event.target.name === "destaque")
       ? setInfo({ ...info, [props]: parseInt(event.target.value) })
       : setInfo({ ...info, [props]: event.target.value });

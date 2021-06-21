@@ -1,25 +1,16 @@
-import React, { useState, useEffect } from "react";
-
-import { useParams, useHistory, Link, useLocation } from "react-router-dom";
-
+import React, { useState } from "react";
+import axios from "axios";
+import "react-datetime/css/react-datetime.css";
+import { useHistory, useLocation } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
-import { Typography, Dialog, DialogTitle } from "@material-ui/core";
-import TextareaAutosize from "@material-ui/core/TextareaAutosize";
+import { Typography } from "@material-ui/core";
 import { Divider } from "@material-ui/core";
-import { Alert, AlertTitle } from "@material-ui/lab";
-import { FormControl, FormControlLabel, Switch } from "@material-ui/core";
-
-import "react-datetime/css/react-datetime.css";
-
-import axios from "axios";
-import { Connection } from "../../../Connection";
-
-import WindowedSelect from "react-windowed-select";
-import { components, createFilter } from "react-windowed-select";
-
+import SuccessDialog from "./components/SimpleDialog";
 import MovieForm from "./components/MovieForm";
+
+import { Connection } from "../../../Connection";
 
 const useStyle = makeStyles((theme) => ({
   root: {},
@@ -34,30 +25,10 @@ const useStyle = makeStyles((theme) => ({
   title: { display: "flex", justifyContent: "center" },
 }));
 
-function SimpleDialog(props) {
-  const { onClose, open } = props;
-
-  const handleClose = () => {
-    onClose();
-  };
-
-  return (
-    <Dialog
-      onClose={handleClose}
-      aria-labelledby="simple-dialog-title"
-      open={open}
-    >
-      <Alert severity="success">
-        <AlertTitle>Sucesso!</AlertTitle>
-      </Alert>
-    </Dialog>
-  );
-}
-
 export default function EditNews() {
-  //const newsInfo = useLocation().state;
   let history = useHistory();
   const location = useLocation();
+
   console.log(location);
 
   const [open, setOpen] = useState(false);
@@ -88,20 +59,9 @@ export default function EditNews() {
     des_locacao: location.state.Locacao,
     des_etreia: location.state.Estreia,
   });
-  console.log(info);
 
-  const [movieID, setMovieID] = useState(location.state.movieCode);
-
+  const movieID = location.state.movieCode;
   const classes = useStyle();
-
-  const customFilter = createFilter({ ignoreAccents: false });
-  const customComponents = {
-    ClearIndicator: (props) => (
-      <components.ClearIndicator {...props}>clear</components.ClearIndicator>
-    ),
-  };
-
-  // ---------------------------------------------------------------------------------------------------------------------------------------
 
   const sendRequestHandler = () => {
     axios({
@@ -115,7 +75,7 @@ export default function EditNews() {
       .then((res) => {
         console.log(res.data);
 
-        //handleClickOpen();
+        handleOpenDialog();
       })
       .catch((err) => console.log(err));
   };
@@ -130,20 +90,19 @@ export default function EditNews() {
   };
 
   const setDateHandler = (event) => {
-    // console.log(event.format("YYYY-MM-DD HH:mm:ss"));
     setInfo({
       ...info,
       ["dtc_lancamento"]: event.format("YYYY-MM-DD HH:mm:ss"),
     });
   };
 
-  const handleClickOpen = () => {
+  const handleOpenDialog = () => {
     setOpen(true);
   };
 
-  const handleClose = (value) => {
+  const handleCloseDialog = () => {
     setOpen(false);
-    return history.push(`/news/`);
+    return history.push(`/aboutmovie?movieCode=${movieID}`);
   };
 
   return (
@@ -200,7 +159,7 @@ export default function EditNews() {
           </Box>
         </Box>
       </Container>
-      <SimpleDialog open={open} onClose={handleClose} />
+      <SuccessDialog open={open} onClose={handleCloseDialog} />
     </React.Fragment>
   );
 }

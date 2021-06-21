@@ -122,6 +122,7 @@ export default function MenuListComposition(props) {
                     {props.tabs.map((el) => {
                       return (
                         <MenuItem
+                          key={el.link}
                           className={classes.tabsText}
                           onClick={handleTabClick(el.link)}
                         >

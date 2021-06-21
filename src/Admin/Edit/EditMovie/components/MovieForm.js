@@ -1,12 +1,9 @@
 import React from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
-import { Typography, Dialog, DialogTitle } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
-import { Divider, Switch } from "@material-ui/core";
-import { Alert, AlertTitle } from "@material-ui/lab";
 
 import "react-datetime/css/react-datetime.css";
 import Datetime from "react-datetime";

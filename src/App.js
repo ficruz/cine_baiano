@@ -1,19 +1,16 @@
 import React from "react";
 import { ThemeProvider } from "@material-ui/core/styles";
-import { HashRouter, Route, Switch, useLocation } from "react-router-dom";
-import { BrowserRouter as Router } from "react-router-dom";
+import { Route, useLocation } from "react-router-dom";
 
 import Header from "./UI/header/header";
 import theme from "./UI/theme";
 import Footer from "./UI/footer";
 
 import Home from "./Home/home";
-import AboutUs from "./About/aboutus";
-import Oque from "./About/aboutfilms";
 import AdvancedSearch from "./AdvancedSearch/AdvancedSearch/advancedSearch";
 import AboutMovie from "./AdvancedSearch/AboutMovie";
 import News from "./News/news";
-import EditNews from "./Admin/Edit/EditNews";
+import EditNews from "./Admin/Edit/EditNews/EditNews";
 import NewNews from "./Admin/New/NewNews";
 import NewMovie from "./Admin/New/NewMovie/NewMovie";
 import EditMovie from "./Admin/Edit/EditMovie/EditMovie";
@@ -23,17 +20,12 @@ import InstitucionalContent from "./InstitucionalContent/InstitucionalContent";
 import { SecureRoute, Security, LoginCallback } from "@okta/okta-react";
 import { OktaAuth, toRelativeUrl } from "@okta/okta-auth-js";
 import { useHistory } from "react-router-dom";
-import AdminHome from "./AdminHome";
+import AdminHome from "./Admin/AdminHome";
 import Protected from "./Admin/Protected";
 import Login from "./Auth/SignIn";
 import { oktaAuthConfig, oktaSignInConfig } from "./Auth/config";
 
 const oktaAuth = new OktaAuth(oktaAuthConfig);
-// const oktaAuth = new OktaAuth({
-//   issuer: "https://dev-84194233.okta.com/oauth2/default",
-//   clientId: "0oakfukpidZQWVZhi5d6",
-//   redirectUri: window.location.origin + "/login/callback",
-// });
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -49,8 +41,8 @@ function App() {
   const customAuthHandler = () => {
     history.push("/login");
   };
-  console.log(window.location.origin);
-  console.log(window.location.href);
+  //console.log(window.location.origin);
+  //console.log(window.location.href);
 
   return (
     <Security
@@ -62,8 +54,6 @@ function App() {
         <Header />
 
         <Route exact path="/home/" component={Home}></Route>
-        <Route exact path="/quemsomos" component={AboutUs}></Route>
-        <Route exact path="/filmebaiano" component={Oque}></Route>
 
         <Route exact path="/News/:id" component={News}></Route>
         <Route exact path="/News/" component={News}></Route>

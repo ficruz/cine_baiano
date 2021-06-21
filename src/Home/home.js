@@ -2,20 +2,16 @@ import React, { useEffect, useState } from "react";
 
 import axios from "axios";
 
-import { useHistory } from "react-router";
-
-import { Paper, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { useTheme } from "@material-ui/core/styles";
 import { Box } from "@material-ui/core";
 
 import CardMedia from "./cardMedia";
 import { Connection } from "../Connection";
-import heroImg from "../assets/default-bg-superhero-1.jpg";
+import heroImg from "../assets/default-bg-superhero-5.jpg";
 import footer1 from "../assets/footer/footer1.png";
 import footer2 from "../assets/footer/footer2.png";
 import footer3 from "../assets/footer/footer3.png";
@@ -38,7 +34,6 @@ const useStyles = makeStyles((theme) => ({
   },
 
   heroSection: {
-    //backgroundColor: theme.palette.primary.main,
     position: "relative",
     display: "flex",
     flexDirection: "column",
@@ -53,10 +48,17 @@ const useStyles = makeStyles((theme) => ({
       right: "0px",
       bottom: "0px",
       left: "0px",
-      backgroundImage: `url(${heroImg})`,
+      width: "3159px",
+      background: `url(${heroImg}) `,
+      backgroundRepeat: "repeat-x",
       backgroundSize: "cover",
       backgroundPosition: "top center",
       opacity: 0.4,
+      animationName: "ball-bounce",
+      animationDuration: "60s",
+      animationIterationCount: "infinite",
+      animationTimingFunction: "linear",
+      [theme.breakpoints.down("xs")]: { animationName: "", width: "100%" },
     },
   },
   heroTitle: {
@@ -65,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
     justifyContent: "center",
     fontSize: "2em",
-    //backgroundColor: "rgb(50, 3, 16)",
+
     opacity: 1,
     [theme.breakpoints.down("xs")]: { fontSize: "8vw" },
   },
@@ -76,17 +78,14 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     fontSize: "1.2em",
     [theme.breakpoints.down("xs")]: { fontSize: "4vw" },
-    // fontWeight: "600",
   },
   heroButton: {
     margin: "10px 0px 0px 0px",
-    // maxWidth: "120px",
-    //width: "15%",
     position: "relative",
     display: "flex",
-
     justifyContent: "center",
   },
+
   heroContainer: {
     display: "flex",
     flexDirection: "column",
@@ -117,8 +116,9 @@ const useStyles = makeStyles((theme) => ({
   linkItem: {
     height: "70px",
     padding: "10px",
-    filter: "grayscale(0%)",
-    "&:hover": { filter: "grayscale(0%)" },
+    opacity: "0.9",
+    filter: "grayscale(30%)",
+    "&:hover": { filter: "grayscale(0%)", opacity: "1" },
   },
   iconContainer: {
     marginTop: "20px",
@@ -129,17 +129,12 @@ const useStyles = makeStyles((theme) => ({
   apoioText: {
     ...theme.typography.footer,
     fontSize: "1.5rem",
-    //paddingTop: "20px",
-    //color: theme.palette.common.white,
     opacity: 0.7,
   },
   BoxSeparator: { height: "20px" },
 }));
 
 export default function PaginaInicial() {
-  const history = useHistory();
-  const theme = useTheme();
-  const breakPointXs = useMediaQuery(theme.breakpoints.down("xs"));
   const classes = useStyles();
   const [news, setNews] = useState([]);
   const [lastNew, setLastNew] = useState([]);
@@ -193,8 +188,6 @@ export default function PaginaInicial() {
     },
   ];
 
-  //console.log(Connection.api);
-
   useEffect(() => {
     axios.get(`${Connection.api}/news`).then((res) => {
       let tempData = [];
@@ -213,13 +206,16 @@ export default function PaginaInicial() {
       return setNews(tempData);
     });
   }, []);
-  console.log(news);
-  console.log(lastNew);
 
   return (
     <div className={classes.root}>
       <Box className={classes.heroSection}>
         <Container maxWidth={"md"}>
+          <style
+            children={
+              "@keyframes ball-bounce { 0%   { transform: translateX(0); }   100%  { transform: translateX(-809px); }  }"
+            }
+          />
           {news[0] ? (
             <Box className={classes.heroContainer}>
               <Typography className={classes.heroTitle}>
@@ -250,9 +246,9 @@ export default function PaginaInicial() {
         <Container maxWidth={"lg"}>
           <Box className={classes.newsDisplay}>
             {news[0]
-              ? news.map((el) => {
+              ? news.map((el, index) => {
                   return (
-                    <Box className={classes.cardItem}>
+                    <Box key={`card-${index}`} className={classes.cardItem}>
                       <CardMedia
                         photo={el.des_foto}
                         photoThumb={el.des_foto_p}
@@ -278,7 +274,11 @@ export default function PaginaInicial() {
           {apoio.concat(apoioFinanceiro).map((el) => {
             return (
               <Link key={el.name} to={el.link}>
-                <img className={classes.linkItem} src={el.src}></img>
+                <img
+                  alt={el.name}
+                  className={classes.linkItem}
+                  src={el.src}
+                ></img>
               </Link>
             );
           })}

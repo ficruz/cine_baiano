@@ -95,56 +95,22 @@ export default function News() {
   const { authState, oktaAuth } = useOktaAuth();
   const [newsData, setNewsData] = useState([]);
   const [open, setOpen] = useState(false);
-  const [photoID, setPhotoID] = useState(useParams().id);
   const [background, setBackground] = useState({
     backgroundImage: `url(${heroa})`,
   });
   const [key, setKey] = useState(1);
 
   let history = useHistory();
-
   let id = useRef(0);
+  let currentid = id.current;
   let lastID = useRef(0);
-
-  console.log(authState.isAuthenticated);
-
-  // let { id } = useParams();
   let tempid = useParams().id;
-  console.log(photoID);
-  //console.log(tempid);
-  //console.log(lastID);
-
-  // if (!(window.location.href === "http://localhost:3000/news/")) {
-  //   id = tempid;
-  // }
-
-  //console.log(id);
-  //console.log(useParams());
-  // console.log(window.location);
-
-  //newsData[0] ? console.log("lleno") : console.log("vacio");
 
   const classes = useStyles();
 
-  const backgroundImage = [
-    heroa,
-    herob,
-    heroc,
-    herod,
-    heroe,
-    herof,
-    herog,
-    heroh,
-    heroi,
-    heroj,
-  ];
-
   useEffect(() => {
     Axios.get(`${Connection.api}/news?id=${id}`).then((res) => {
-      console.log(res.data);
       lastID.current = res.data.length - 2;
-
-      //console.log(lastID);
 
       if (
         (window.location.href === "http://localhost:3000/news/") |
@@ -155,17 +121,26 @@ export default function News() {
       } else {
         id.current = tempid;
       }
-      console.log(id);
-
-      //console.log(window.location.href === "http://localhost:3000/news/");
 
       return setNewsData(res.data);
     });
   }, [tempid]);
 
   useEffect(() => {
+    const backgroundImage = [
+      heroa,
+      herob,
+      heroc,
+      herod,
+      heroe,
+      herof,
+      herog,
+      heroh,
+      heroi,
+      heroj,
+    ];
+
     const rand = Math.ceil(Math.random() * 10) - 1;
-    // console.log(rand);
 
     setBackground({
       backgroundImage: `url(${backgroundImage[rand]})`,
@@ -173,14 +148,10 @@ export default function News() {
       height: "340px",
       position: "relative",
     });
-    return setKey(id.current);
-  }, [id.current]);
+    return setKey(currentid);
+  }, [currentid]);
 
   const sendDeleteRequestHandler = () => {
-    //console.log(info);
-
-    console.log(`Delete Entry ${newsData[id.current]["cod_noticia"]}`);
-
     axios({
       method: "patch",
       url: `${Connection.api}/news/delete`,
@@ -227,9 +198,13 @@ export default function News() {
             {" "}
             <Box className={classes.spaceBox}></Box>
             <Box>
-              {newsData[id.current]["des_texto"].split("\n").map((el) => (
-                <Typography className={classes.text}>{el}</Typography>
-              ))}{" "}
+              {newsData[id.current]["des_texto"]
+                .split("\n")
+                .map((el, index) => (
+                  <Typography key={`${el}${index}`} className={classes.text}>
+                    {el}
+                  </Typography>
+                ))}{" "}
             </Box>
             <Box className={classes.spaceBox}></Box>
             {authState.isAuthenticated ? (
@@ -286,11 +261,8 @@ export default function News() {
             <Box>
               <Box className={classes.spaceBox}></Box>
               {newsData.map((el, index) => (
-                <Typography>
-                  <Link
-                    onClick={() => history.push(`/news/${index}`)}
-                    color="inherit"
-                  >
+                <Typography key={`${el.des_titulo}-${index}`}>
+                  <Link to={`/news/${index}`} color="inherit">
                     {el.date}
                     {"  "}
                     {el.des_titulo}

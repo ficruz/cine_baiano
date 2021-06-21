@@ -12,8 +12,6 @@ import { useTheme } from "@material-ui/core/styles";
 
 import Axios from "axios";
 
-import { useHistory } from "react-router-dom";
-
 import Selector from "./selector";
 import InputNome from "./inputText";
 import ResultTable from "./resultTable";
@@ -44,7 +42,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function BusquedaAvancada(props) {
   const classes = useStyles();
-  const history = useHistory();
 
   // ** Params from the URL to do an initial search.*/
   let simpleQueryParams = props.match.params;
@@ -102,40 +99,21 @@ export default function BusquedaAvancada(props) {
     Axios.get(`${connection}/api/advancedsearch`, {
       params: props,
     }).then((response) => {
-      console.log(response);
       setOpenBasicForm(false);
 
       sessionStorage.setItem("lastResult", JSON.stringify(response.data));
-      //     console.log(JSON.parse(sessionStorage.getItem("lastResult")));
 
-      setListaFiltrada(response.data);
+      return setListaFiltrada(response.data);
     });
   };
 
   // **Fetch initial form values options */
   useEffect(() => {
     Axios.get(`${connection}/api/initialData`).then((response) => {
+      console.log("fetching initial data");
       return setInitialData(noSelectionHandler(response.data));
     });
   }, []);
-
-  // ** function to include Blank option in the form selectors
-  // @params {array} obj - initial data from API */
-  const noSelectionHandler = (obj) => {
-    const valuesGenero = [{ des_genero_filme: "" }, ...obj.generoFilme.values];
-    const valuesMetragem = [
-      { des_tipo_metragem: "" },
-      ...obj.tipoMetragem.values,
-    ];
-    const valuesSoporte = [{ des_tipo_suporte: "" }, ...obj.tipoSoporte.values];
-
-    const tempInitialData = { ...obj };
-    tempInitialData.generoFilme.values = valuesGenero;
-    tempInitialData.tipoMetragem.values = valuesMetragem;
-    tempInitialData.tipoSoporte.values = valuesSoporte;
-
-    return tempInitialData;
-  };
 
   // ** function to search with url params at first render */
   useEffect(() => {
@@ -181,6 +159,24 @@ export default function BusquedaAvancada(props) {
         break;
     }
   }, [simpleQueryParams.pathParam1, simpleQueryParams.pathParam2]);
+
+  // ** function to include Blank option in the form selectors
+  // @params {array} obj - initial data from API */
+  const noSelectionHandler = (obj) => {
+    const valuesGenero = [{ des_genero_filme: "" }, ...obj.generoFilme.values];
+    const valuesMetragem = [
+      { des_tipo_metragem: "" },
+      ...obj.tipoMetragem.values,
+    ];
+    const valuesSoporte = [{ des_tipo_suporte: "" }, ...obj.tipoSoporte.values];
+
+    const tempInitialData = { ...obj };
+    tempInitialData.generoFilme.values = valuesGenero;
+    tempInitialData.tipoMetragem.values = valuesMetragem;
+    tempInitialData.tipoSoporte.values = valuesSoporte;
+
+    return tempInitialData;
+  };
 
   const basicForm = (
     <React.Fragment>

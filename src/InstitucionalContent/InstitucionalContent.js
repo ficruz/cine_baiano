@@ -42,27 +42,15 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "3rem",
     fontWeight: 600,
     color: "#fcf6df",
-    //opacity: 0.8,
-    //color: "white",
-    //padding: "1em",
-    //marginTop: "40px",
-    //marginBottom: "40px",
     [theme.breakpoints.down("xs")]: { fontSize: "8vw" },
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
   },
   hero1: {
-    // minHeight: "340px",
-    // maxWidth: "1920px",
     display: "flex",
-    // justifyContent: "center",
-    //alignContent: "center",
+
     alignItems: "center",
-  },
-  containerhero: {
-    //alignContent: "center",
-    //  alignItems: "center",
   },
 }));
 
@@ -75,33 +63,11 @@ export default function InstitucionalContent() {
   const classes = useStyles();
 
   let { id } = useParams();
-  //console.log(id);
 
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("xs"));
 
-  const backgroundImage = [
-    heroa,
-    herob,
-    heroc,
-    herod,
-    heroe,
-    herof,
-    herog,
-    heroh,
-    heroi,
-    heroj,
-  ];
-
   useEffect(() => {
-    // setBackground({
-    //   backgroundImage: `url(${backgroundImage[rand]}) no-repeat center`,
-    //   backgroundSize: "cover",
-    //   height: "340px",
-    //   position: "relative",
-    // });
-    // //setKey(rand);
-
     axios.get(`${Connection.api}/api/Institutional`).then((res) => {
       // console.log(res.data);
       return setInitialData(res.data);
@@ -109,10 +75,19 @@ export default function InstitucionalContent() {
   }, []);
 
   useEffect(() => {
+    const backgroundImage = [
+      heroa,
+      herob,
+      heroc,
+      herod,
+      heroe,
+      herof,
+      herog,
+      heroh,
+      heroi,
+      heroj,
+    ];
     const rand = Math.ceil(Math.random() * 10) - 1;
-    // console.log(rand);
-
-    console.log(matches);
 
     !matches
       ? setBackground({

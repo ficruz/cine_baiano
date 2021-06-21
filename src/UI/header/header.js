@@ -10,17 +10,16 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import SearchIcon from "@material-ui/icons/Search";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
-import CameraIcon from "@material-ui/icons/Camera";
 import { Button } from "@material-ui/core";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import { Divider } from "@material-ui/core";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import { Fab } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 
 import logoMarca from "../../assets/marca.png";
 
@@ -49,13 +48,16 @@ const useStyles = makeStyles((theme) => ({
     width: "40px",
     color: "white",
   },
-  logo: { maxHeight: "40px", marginRight: "auto" },
+  logo: {
+    maxHeight: "60px",
+    marginRight: "auto",
+    padding: "10px 0",
+    [theme.breakpoints.down("xs")]: { maxHeight: "40px" },
+  },
 
   title: {
     ...theme.typography.tab,
     color: theme.palette.common.white,
-    // display: "flex",
-
     marginLeft: "30px",
   },
   drawer: {
@@ -73,16 +75,12 @@ const useStyles = makeStyles((theme) => ({
     ...theme.typography.tab,
     color: "white",
     opacity: 0.6,
-
-    // color: theme.palette.common.darkerRed,
   },
   drawerBusquedaAv: {
     ...theme.typography.tab,
     color: "white",
     opacity: 0.6,
     padding: "1em",
-
-    // color: theme.palette.common.darkerRed,
   },
   drawerTypoSelected: {
     ...theme.typography.tab,
@@ -94,17 +92,12 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "white",
     marginLeft: theme.spacing(4),
     marginRigth: theme.spacing(2),
-    //flexGrow: 1,
     borderRadius: 10,
   },
   movileSearchBar: {
     backgroundColor: "white",
-    //marginLeft: theme.spacing(4),
-    //marginRigth: theme.spacing(2),
-    //flexGrow: 1,
     margin: "10px 0 10px 0",
     borderRadius: 10,
-    //pading: "5px",
   },
   toolbar: {
     maxWidth: 1280,
@@ -116,7 +109,6 @@ const useStyles = makeStyles((theme) => ({
     height: "3.8em",
   },
   popupItem: {
-    //maxWidth: "10px",
     marginLeft: theme.spacing(2),
   },
 }));
@@ -128,6 +120,7 @@ const Header = (props) => {
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
   const matches = useMediaQuery(theme.breakpoints.down("xs"));
   const home = "/home";
+  const history = useHistory();
 
   //** State to save and check current selected window */
   const [value, setValue] = useState(0);
@@ -142,10 +135,6 @@ const Header = (props) => {
 
   const handleCloseSearchBar = () => {
     return setPopupSearchBar(false);
-  };
-
-  const handleSelectedMenu = (event, newValue) => {
-    return setValue(newValue);
   };
 
   const route = [
@@ -285,12 +274,12 @@ const Header = (props) => {
       </Box>
       {authState.isAuthenticated ? (
         <Fab
-          style={{ marginLeft: "15px", backgroundColor: "red" }}
+          style={{ marginLeft: "15px", backgroundColor: "yellow" }}
           size="small"
           aria-label="add"
-          onClick={async () => oktaAuth.signOut()}
+          onClick={() => history.push("/admin")}
         >
-          <ExitToAppIcon />
+          <AccountBoxIcon />
         </Fab>
       ) : null}
     </React.Fragment>
@@ -341,7 +330,13 @@ const Header = (props) => {
             />
           </ListItem>
           <Divider style={{ background: "white", opacity: 0.5 }} />
-          <ListItem className={classes.drawerBusquedaAv}>
+          <ListItem
+            onClick={() => {
+              history.push("/busquedaavancada");
+              return setOpenDrawer(false);
+            }}
+            className={classes.drawerBusquedaAv}
+          >
             Busqueda Avançada
           </ListItem>
         </List>
