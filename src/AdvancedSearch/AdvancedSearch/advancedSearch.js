@@ -9,6 +9,7 @@ import Button from "@material-ui/core/Button";
 import Collapse from "@material-ui/core/Collapse";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useTheme } from "@material-ui/core/styles";
+import { Alert, AlertTitle } from "@material-ui/lab";
 
 import Axios from "axios";
 
@@ -110,20 +111,24 @@ export default function BusquedaAvancada(props) {
   const [openAdvancedForm, setOpenAdvancedForm] = useState(false);
   const [openBasicForm, setOpenBasicForm] = useState(true);
 
+  const [alertEmptyQuery, setAlertEmptyQuery] = useState(false);
+
   // ** fetch the movie search
   // @param {string} props with search options */
   const getQuery = (props) => {
+    setAlertEmptyQuery(false);
+
     Axios.get(`${connection}/api/advancedsearch`, {
       params: props,
     }).then((response) => {
       if (window.innerWidth < 600) {
         setOpenBasicForm(false);
-        console.log("esta chico");
       }
-      //console.log(window.innerWidth);
-      //console.log(breakPointXs);
 
       sessionStorage.setItem("lastResult", JSON.stringify(response.data));
+      if (!response.data[0]) {
+        setAlertEmptyQuery(true);
+      }
 
       return setListaFiltrada(response.data);
     });
@@ -413,6 +418,14 @@ export default function BusquedaAvancada(props) {
           Buscar
         </Button>
       </div>
+
+      {alertEmptyQuery ? (
+        <Alert severity="warning">
+          <AlertTitle>Atenção</AlertTitle>
+          <strong>Nenhum</strong> item foi encontrado com seus critérios de
+          pesquisa
+        </Alert>
+      ) : null}
 
       <ResultTable listaFiltrada={listaFiltrada} />
     </Container>
