@@ -224,9 +224,7 @@ export default function Aboutfilme(props) {
         return setMovieData(tempMovieData);
       })
       .catch((err) => console.log(err));
-  }, []);
-
-  console.log(movieData);
+  }, [movieCode]);
 
   const handleCloseDialog = () => {
     setOpen(false);

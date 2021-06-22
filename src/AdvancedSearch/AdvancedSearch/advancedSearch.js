@@ -47,7 +47,7 @@ export default function BusquedaAvancada(props) {
   let simpleQueryParams = props.match.params;
 
   const theme = useTheme();
-  const breakPointXs = useMediaQuery(theme.breakpoints.down("xs"));
+  const breakPointXs = useMediaQuery(theme.breakpoints.down("sm"));
 
   // ** State to save the form changes.*/
   const [nomeFilme, setNomeFilme] = useState("");
@@ -81,6 +81,23 @@ export default function BusquedaAvancada(props) {
     codfilme: codFilme,
   };
 
+  let simpleSearchParams = {
+    sinopse: "",
+    observacao: "",
+    fontes: "",
+    origem: "",
+    pessoasempresas: "",
+    peb: "",
+    colorido: "",
+    ano: "",
+    nome: "",
+    cinemamudo: "",
+    genero: "",
+    metragem: "",
+    soporte: "",
+    codfilme: "%",
+  };
+
   //** Initial data state to fill the form */
   const [InitialData, setInitialData] = useState(null);
 
@@ -99,7 +116,12 @@ export default function BusquedaAvancada(props) {
     Axios.get(`${connection}/api/advancedsearch`, {
       params: props,
     }).then((response) => {
-      setOpenBasicForm(false);
+      if (window.innerWidth < 600) {
+        setOpenBasicForm(false);
+        console.log("esta chico");
+      }
+      //console.log(window.innerWidth);
+      //console.log(breakPointXs);
 
       sessionStorage.setItem("lastResult", JSON.stringify(response.data));
 
@@ -107,58 +129,42 @@ export default function BusquedaAvancada(props) {
     });
   };
 
+  const switchSimpleSearch = async () => {
+    switch (simpleQueryParams.pathParam1) {
+      case "Nome":
+        simpleSearchParams.nome = simpleQueryParams.pathParam2;
+        return await getQuery(simpleSearchParams);
+
+      case "Ano":
+        simpleSearchParams.ano = simpleQueryParams.pathParam2;
+        return await getQuery(simpleSearchParams);
+
+      case "Diretor":
+        simpleSearchParams.pessoasempresas = simpleQueryParams.pathParam2;
+        return await getQuery(simpleSearchParams);
+
+      case "Sinopse":
+        simpleSearchParams.pessoasempresas = simpleQueryParams.pathParam2;
+        return await getQuery(simpleSearchParams);
+
+      case "codfilme":
+        simpleSearchParams.codfilme = simpleQueryParams.pathParam2;
+        return await getQuery(simpleSearchParams);
+
+      default:
+        break;
+    }
+  };
+
   // **Fetch initial form values options */
   useEffect(() => {
     Axios.get(`${connection}/api/initialData`).then((response) => {
-      console.log("fetching initial data");
+      switchSimpleSearch();
       return setInitialData(noSelectionHandler(response.data));
     });
   }, []);
 
   // ** function to search with url params at first render */
-  useEffect(() => {
-    let params = {
-      sinopse: "",
-      observacao: "",
-      fontes: "",
-      origem: "",
-      pessoasempresas: "",
-      peb: "",
-      colorido: "",
-      ano: "",
-      nome: "",
-      cinemamudo: "",
-      genero: "",
-      metragem: "",
-      soporte: "",
-      codfilme: "%",
-    };
-
-    switch (simpleQueryParams.pathParam1) {
-      case "Nome":
-        params.nome = simpleQueryParams.pathParam2;
-        return getQuery(params);
-
-      case "Ano":
-        params.ano = simpleQueryParams.pathParam2;
-        return getQuery(params);
-
-      case "Diretor":
-        params.pessoasempresas = simpleQueryParams.pathParam2;
-        return getQuery(params);
-
-      case "Sinopse":
-        params.pessoasempresas = simpleQueryParams.pathParam2;
-        return getQuery(params);
-
-      case "codfilme":
-        params.codfilme = simpleQueryParams.pathParam2;
-        return getQuery(params);
-
-      default:
-        break;
-    }
-  }, [simpleQueryParams.pathParam1, simpleQueryParams.pathParam2]);
 
   // ** function to include Blank option in the form selectors
   // @params {array} obj - initial data from API */
