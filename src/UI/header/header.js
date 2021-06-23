@@ -111,6 +111,13 @@ const useStyles = makeStyles((theme) => ({
   popupItem: {
     marginLeft: theme.spacing(2),
   },
+  accountIcon: {
+    backgroundColor: "#cf963f",
+    marginLeft: "15px",
+    //opacity: "0.9",
+
+    //"$:hover": { backgroundColor: "#cf963f",  },
+  },
 }));
 
 const Header = (props) => {
@@ -272,16 +279,15 @@ const Header = (props) => {
       <Box className={classes.searchBar}>
         <SearchBar />
       </Box>
-      {authState.isAuthenticated ? (
-        <Fab
-          style={{ marginLeft: "15px", backgroundColor: "yellow" }}
-          size="small"
-          aria-label="add"
-          onClick={() => history.push("/admin")}
-        >
-          <AccountBoxIcon />
-        </Fab>
-      ) : null}
+
+      <Fab
+        className={classes.accountIcon}
+        size="small"
+        aria-label="add"
+        onClick={() => history.push("/admin")}
+      >
+        <AccountBoxIcon />
+      </Fab>
     </React.Fragment>
   );
 
