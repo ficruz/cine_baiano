@@ -41,8 +41,6 @@ function App() {
   const customAuthHandler = () => {
     history.push("/login");
   };
-  //console.log(window.location.origin);
-  //console.log(window.location.href);
 
   return (
     <Security
@@ -53,7 +51,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <Header />
 
-        <Route exact path="/home/" component={Home}></Route>
+        <Route exact path="/" component={Home}></Route>
 
         <Route exact path="/News/:id" component={News}></Route>
         <Route exact path="/News/" component={News}></Route>
