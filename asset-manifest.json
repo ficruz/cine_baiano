@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.js": "./static/js/main.6d8eb4e9.chunk.js",
-    "main.js.map": "./static/js/main.6d8eb4e9.chunk.js.map",
+    "main.js": "./static/js/main.86a474db.chunk.js",
+    "main.js.map": "./static/js/main.86a474db.chunk.js.map",
     "runtime-main.js": "./static/js/runtime-main.1251a563.js",
     "runtime-main.js.map": "./static/js/runtime-main.1251a563.js.map",
     "static/css/2.374b0c21.chunk.css": "./static/css/2.374b0c21.chunk.css",
@@ -11,20 +11,9 @@
     "static/css/2.374b0c21.chunk.css.map": "./static/css/2.374b0c21.chunk.css.map",
     "static/js/2.69f8a001.chunk.js.LICENSE.txt": "./static/js/2.69f8a001.chunk.js.LICENSE.txt",
     "static/media/okta-sign-in.min.css": "./static/media/yubikeyDemo.5ebed9d6.png",
-    "static/media/ca.a5a2c4c9.jpg": "./static/media/ca.a5a2c4c9.jpg",
-    "static/media/cb.e4d35dc2.jpg": "./static/media/cb.e4d35dc2.jpg",
-    "static/media/cc.c53396e6.jpg": "./static/media/cc.c53396e6.jpg",
-    "static/media/cd.31a3d954.jpg": "./static/media/cd.31a3d954.jpg",
-    "static/media/cf.dbfdf2c6.jpg": "./static/media/cf.dbfdf2c6.jpg",
-    "static/media/cg.406ecbd1.jpg": "./static/media/cg.406ecbd1.jpg",
-    "static/media/ch.05d85286.jpg": "./static/media/ch.05d85286.jpg",
-    "static/media/ci.5d01e2a0.jpg": "./static/media/ci.5d01e2a0.jpg",
-    "static/media/cj.b5f98f4b.jpg": "./static/media/cj.b5f98f4b.jpg",
-    "static/media/ck.ccae396c.jpg": "./static/media/ck.ccae396c.jpg",
     "static/media/default-bg-superhero-2.fd883e23.jpg": "./static/media/default-bg-superhero-2.fd883e23.jpg",
     "static/media/default-bg-superhero-5.ec4cc219.jpg": "./static/media/default-bg-superhero-5.ec4cc219.jpg",
     "static/media/footer2.671005dd.png": "./static/media/footer2.671005dd.png",
-    "static/media/hero_movie_op_07_comp.a7348bc9.jpg": "./static/media/hero_movie_op_07_comp.a7348bc9.jpg",
     "static/media/marca.png": "./static/media/marca.76a0ede4.png",
     "static/media/marca_black.06aea221.png": "./static/media/marca_black.06aea221.png",
     "static/media/telon_uno.2994b5c5.png": "./static/media/telon_uno.2994b5c5.png"
@@ -33,6 +22,6 @@
     "static/js/runtime-main.1251a563.js",
     "static/css/2.374b0c21.chunk.css",
     "static/js/2.69f8a001.chunk.js",
-    "static/js/main.6d8eb4e9.chunk.js"
+    "static/js/main.86a474db.chunk.js"
   ]
 }
