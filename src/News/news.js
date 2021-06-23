@@ -21,17 +21,6 @@ import { Alert, AlertTitle } from "@material-ui/lab";
 
 import { useOktaAuth } from "@okta/okta-react/";
 
-import heroa from "../assets/hero/ca.jpg";
-import herob from "../assets/hero/cb.jpg";
-import heroc from "../assets/hero/cc.jpg";
-import herod from "../assets/hero/cd.jpg";
-import heroe from "../assets/hero/ck.jpg";
-import herof from "../assets/hero/cf.jpg";
-import herog from "../assets/hero/cg.jpg";
-import heroh from "../assets/hero/ch.jpg";
-import heroi from "../assets/hero/ci.jpg";
-import heroj from "../assets/hero/cj.jpg";
-
 const useStyles = makeStyles((theme) => ({
   //title: { fontWeight: 400, fontSize: "2rem" },
   newsInfo: {
@@ -96,7 +85,7 @@ export default function News() {
   const [newsData, setNewsData] = useState([]);
   const [open, setOpen] = useState(false);
   const [background, setBackground] = useState({
-    backgroundImage: `url(${heroa})`,
+    backgroundImage: null,
   });
   const [key, setKey] = useState(1);
 
@@ -128,16 +117,16 @@ export default function News() {
 
   useEffect(() => {
     const backgroundImage = [
-      heroa,
-      herob,
-      heroc,
-      herod,
-      heroe,
-      herof,
-      herog,
-      heroh,
-      heroi,
-      heroj,
+      "https://filmografiabaiana.s3.sa-east-1.amazonaws.com/ca.jpg",
+      "https://filmografiabaiana.s3.sa-east-1.amazonaws.com/cb.jpg",
+      "https://filmografiabaiana.s3.sa-east-1.amazonaws.com/cc.jpg",
+      "https://filmografiabaiana.s3.sa-east-1.amazonaws.com/cd.jpg",
+      "https://filmografiabaiana.s3.sa-east-1.amazonaws.com/ck.jpg",
+      "https://filmografiabaiana.s3.sa-east-1.amazonaws.com/cf.jpg",
+      "https://filmografiabaiana.s3.sa-east-1.amazonaws.com/cg.jpg",
+      "https://filmografiabaiana.s3.sa-east-1.amazonaws.com/ch.jpg",
+      "https://filmografiabaiana.s3.sa-east-1.amazonaws.com/ci.jpg",
+      "https://filmografiabaiana.s3.sa-east-1.amazonaws.com/cj.jpg",
     ];
 
     const rand = Math.ceil(Math.random() * 10) - 1;

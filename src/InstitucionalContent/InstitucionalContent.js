@@ -13,18 +13,6 @@ import { Container, Typography } from "@material-ui/core";
 
 import { Connection } from "../Connection";
 
-import heroa from "../assets/hero/ca.jpg";
-import herob from "../assets/hero/cb.jpg";
-import heroc from "../assets/hero/cc.jpg";
-import herod from "../assets/hero/cd.jpg";
-import heroe from "../assets/hero/ck.jpg";
-import herof from "../assets/hero/cf.jpg";
-import herog from "../assets/hero/cg.jpg";
-import heroh from "../assets/hero/ch.jpg";
-import heroi from "../assets/hero/ci.jpg";
-import heroj from "../assets/hero/cj.jpg";
-import mainHero from "../assets/hero_movie_op_07_comp.jpg";
-
 const useStyles = makeStyles((theme) => ({
   root: {
     ...theme.typography.tab,
@@ -57,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 export default function InstitucionalContent() {
   const [initialData, setInitialData] = useState([]);
   const [background, setBackground] = useState({
-    backgroundImage: `url(${mainHero})`,
+    backgroundImage: `url("https://filmografiabaiana.s3.sa-east-1.amazonaws.com/hero_movie_op_07_comp.jpg")`,
   });
   const [key, setKey] = useState(1);
   const classes = useStyles();
@@ -76,17 +64,18 @@ export default function InstitucionalContent() {
 
   useEffect(() => {
     const backgroundImage = [
-      heroa,
-      herob,
-      heroc,
-      herod,
-      heroe,
-      herof,
-      herog,
-      heroh,
-      heroi,
-      heroj,
+      "https://filmografiabaiana.s3.sa-east-1.amazonaws.com/ca.jpg",
+      "https://filmografiabaiana.s3.sa-east-1.amazonaws.com/cb.jpg",
+      "https://filmografiabaiana.s3.sa-east-1.amazonaws.com/cc.jpg",
+      "https://filmografiabaiana.s3.sa-east-1.amazonaws.com/cd.jpg",
+      "https://filmografiabaiana.s3.sa-east-1.amazonaws.com/ck.jpg",
+      "https://filmografiabaiana.s3.sa-east-1.amazonaws.com/cf.jpg",
+      "https://filmografiabaiana.s3.sa-east-1.amazonaws.com/cg.jpg",
+      "https://filmografiabaiana.s3.sa-east-1.amazonaws.com/ch.jpg",
+      "https://filmografiabaiana.s3.sa-east-1.amazonaws.com/ci.jpg",
+      "https://filmografiabaiana.s3.sa-east-1.amazonaws.com/cj.jpg",
     ];
+
     const rand = Math.ceil(Math.random() * 10) - 1;
 
     !matches
@@ -97,7 +86,7 @@ export default function InstitucionalContent() {
           position: "relative",
         })
       : setBackground({
-          backgroundImage: `url(${mainHero})`,
+          backgroundImage: `url("https://filmografiabaiana.s3.sa-east-1.amazonaws.com/hero_movie_op_07_comp.jpg")`,
           backgroundSize: "cover",
           height: "340px",
           position: "relative",
