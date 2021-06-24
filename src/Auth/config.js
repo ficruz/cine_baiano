@@ -1,5 +1,3 @@
-import logo from "../assets/marca_black.png";
-
 const oktaAuthConfig = {
   // Note: If your app is configured to use the Implicit flow
   // instead of the Authorization Code with Proof of Code Key Exchange (PKCE)
@@ -11,7 +9,7 @@ const oktaAuthConfig = {
 
 const oktaSignInConfig = {
   baseUrl: "https://dev-84194233.okta.com",
-  logo: logo,
+  logo: "https://filmografiabaiana.s3.sa-east-1.amazonaws.com/marca_black.png",
   clientId: "0oakfukpidZQWVZhi5d6",
   redirectUri: window.location.origin + "/login/callback",
   authParams: {

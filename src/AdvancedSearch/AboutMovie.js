@@ -6,9 +6,6 @@ import { useHistory } from "react-router-dom";
 
 import moment from "moment";
 
-import ImageBack from "../assets/default-bg-superhero-2.jpg";
-import FrontPic from "../assets/telon_uno.png";
-
 import { useTheme } from "@material-ui/core/styles";
 
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -37,7 +34,7 @@ import { useOktaAuth } from "@okta/okta-react/";
 const useStyles = makeStyles((theme) => ({
   heroBox: {
     ...theme.typography.tab,
-    backgroundImage: `url(${ImageBack})`,
+    backgroundImage: `url("https://filmografiabaiana.s3.sa-east-1.amazonaws.com/default-bg-superhero-2.jpg")`,
     maxWidth: "1920px",
     height: "340px",
     display: "flex",
@@ -274,7 +271,9 @@ export default function Aboutfilme(props) {
                         component="img"
                         alt="Movie Poster"
                         //height="140"
-                        image={FrontPic}
+                        image={
+                          "https://filmografiabaiana.s3.sa-east-1.amazonaws.com/telon_uno.png"
+                        }
                         title="Movie Title"
                       />
                     </Box>
@@ -639,7 +638,9 @@ export default function Aboutfilme(props) {
                   component="img"
                   alt="Movie Poster"
                   //height="140"
-                  image={FrontPic}
+                  image={
+                    "https://filmografiabaiana.s3.sa-east-1.amazonaws.com/telon_uno.png"
+                  }
                   title="Movie Title"
                 />
               </Box>

@@ -11,7 +11,6 @@ import { Box } from "@material-ui/core";
 
 import CardMedia from "./cardMedia";
 import { Connection } from "../Connection";
-import heroImg from "../assets/default-bg-superhero-5.jpg";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -42,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
       bottom: "0px",
       left: "0px",
       width: "3159px",
-      background: `url(${heroImg}) `,
+      background: `url("https://filmografiabaiana.s3.sa-east-1.amazonaws.com/default-bg-superhero-5.jpg") `,
       backgroundRepeat: "repeat-x",
       backgroundSize: "cover",
       backgroundPosition: "top center",

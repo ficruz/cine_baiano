@@ -21,8 +21,6 @@ import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import { Fab } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 
-import logoMarca from "../../assets/marca.png";
-
 import SearchBar from "./searchBar";
 import PopUp from "./popupTabItem";
 import Collapsable from "./collapseMenuItem";
@@ -253,7 +251,11 @@ const Header = (props) => {
         className={classes.drawerIconContainer}
         underline={"none"}
       >
-        <img className={classes.logo} src={logoMarca} alt="logo_marca"></img>
+        <img
+          className={classes.logo}
+          src={"https://filmografiabaiana.s3.sa-east-1.amazonaws.com/marca.png"}
+          alt="logo_marca"
+        ></img>
       </Link>
 
       <PopUp name={"Quem Somos"} tabs={quemSomos} />
@@ -354,7 +356,13 @@ const Header = (props) => {
         </IconButton>
 
         <Link to={home} underline={"none"}>
-          <img className={classes.logo} src={logoMarca} alt="logo_marca"></img>
+          <img
+            className={classes.logo}
+            src={
+              "https://filmografiabaiana.s3.sa-east-1.amazonaws.com/marca.png"
+            }
+            alt="logo_marca"
+          ></img>
         </Link>
       </div>
 
