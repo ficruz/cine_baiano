@@ -101,9 +101,10 @@ export default function News() {
     Axios.get(`${Connection.api}/news?id=${id}`).then((res) => {
       lastID.current = res.data.length - 2;
 
+      // ** redirecting to the last new
       if (
-        (window.location.href === "http://localhost:3000/news/") |
-        (window.location.href === "http://localhost:3000/news") |
+        (window.location.pathname === "/news/") |
+        (window.location.pathname === "/news") |
         (tempid > res.data.length - 1)
       ) {
         id.current = res.data.length - 1;

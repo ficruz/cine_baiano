@@ -21,7 +21,7 @@ import { SecureRoute, Security, LoginCallback } from "@okta/okta-react";
 import { OktaAuth, toRelativeUrl } from "@okta/okta-auth-js";
 import { useHistory } from "react-router-dom";
 import AdminHome from "./Admin/AdminHome";
-import Protected from "./Admin/Protected";
+
 import Login from "./Auth/SignIn";
 import { oktaAuthConfig, oktaSignInConfig } from "./Auth/config";
 
@@ -80,7 +80,6 @@ function App() {
           render={() => <Login config={oktaSignInConfig} />}
         />
         <SecureRoute path="/Admin" exact={true} component={AdminHome} />
-        <SecureRoute path="/protected" component={Protected} />
         <Route path="/login/callback" component={LoginCallback} />
 
         <Route
