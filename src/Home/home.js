@@ -12,13 +12,6 @@ import { Box } from "@material-ui/core";
 import CardMedia from "./cardMedia";
 import { Connection } from "../Connection";
 import heroImg from "../assets/default-bg-superhero-5.jpg";
-import footer1 from "../assets/footer/footer1.png";
-import footer2 from "../assets/footer/footer2.png";
-import footer3 from "../assets/footer/footer3.png";
-import footer4 from "../assets/footer/footer4.png";
-import footer5 from "../assets/footer/footer5.png";
-import footer6 from "../assets/footer/footer6.png";
-import footer7 from "../assets/footer/footer7.png";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -142,13 +135,13 @@ export default function PaginaInicial() {
   const apoio = [
     {
       name: "Centro de Cultura, Linguagens e Tecnologias Aplicadas",
-      src: footer1,
+      src: "https://filmografiabaiana.s3.sa-east-1.amazonaws.com/footer1.png",
       xs: 1,
       link: "https://ufrb.edu.br/cecult/",
     },
     {
       name: "Cineclube Guido Araujo",
-      src: footer2,
+      src: "https://filmografiabaiana.s3.sa-east-1.amazonaws.com/footer2.png",
       xs: 1,
       link: "https://www.facebook.com/cineclubeguidoaraujo/",
     },
@@ -157,32 +150,32 @@ export default function PaginaInicial() {
   const apoioFinanceiro = [
     {
       name: "FUNDACAO CULTURAL ESTADO DA BAIA",
-      src: footer3,
+      src: "https://filmografiabaiana.s3.sa-east-1.amazonaws.com/footer3.png",
       xs: 1,
       link: "http://www.fundacaocultural.ba.gov.br/",
     },
     {
       name: "Fundo de Cultura",
-      src: footer4,
+      src: "https://filmografiabaiana.s3.sa-east-1.amazonaws.com/footer4.png",
       xs: 1,
       link: "http://www.cultura.ba.gov.br/modules/conteudo/conteudo.php?conteudo=40",
     },
     {
       name: "Secretaria da Fazenda",
-      src: footer5,
+      src: "https://filmografiabaiana.s3.sa-east-1.amazonaws.com/footer5.png",
       xs: 1,
       link: "https://www.sefaz.ba.gov.br/",
     },
     {
       name: "Secretaria da Cultura",
-      src: footer6,
+      src: "https://filmografiabaiana.s3.sa-east-1.amazonaws.com/footer6.png",
       xs: 1,
       link: "http://www.cultura.ba.gov.br",
     },
 
     {
       name: "BAHIA GOVERNO DO ESTADO",
-      src: footer7,
+      src: "https://filmografiabaiana.s3.sa-east-1.amazonaws.com/footer7.png",
       xs: 1,
       link: "http://www.bahia.ba.gov.br/",
     },
